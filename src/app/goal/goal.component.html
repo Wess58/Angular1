@@ -1,0 +1,37 @@
+<h1 class="goal" >My Goals</h1>
+<hr>
+<div class="container">
+  <div class="row" *ngFor='let goal of goals;let i = index'>
+    <div class="col-md-8">
+
+      <h5  id="{{i}}" appStrikethrough>{{goal.name}} due on {{goal.completeDate|date|uppercase}}</h5>
+      <button class="btn btn-outline-danger" (click)='toogleDetails(i)'>Toogle Details</button>
+    </div>
+    <div class="col-md-4">
+
+                                  <!-- this *app-goal-details tag calls the deleteGoal function -->
+      <div *ngIf="goal.showDescription">
+                                  <!-- We add the app-goal-details tag to the parent goal component -->
+        <app-goal-details [goal]='goal' (isComplete)='deleteGoal($event,i)'></app-goal-details>
+      </div>
+
+    </div>
+  </div>
+
+                              <!-- this paragraph warns if you exceed 5 goals -->
+  <p id="warning" *ngIf='goals.length > 5'>You have too many goals</p>
+  <div class="row">
+                                <!-- We add the app-goal-form tag to the parent goal component. To make template forms work in angular applications we need to import the forms module to our application -->
+
+                                <!-- We add the output event addGoal that triggers the addNewGoal function passing in the new goal that was emitted. -->
+
+    <app-goal-form (addGoal)="addNewGoal($event)"></app-goal-form>
+  </div>
+</div>
+<div class="container-fluid">
+  <footer>
+    <div id="bottom" >
+      <p class="contact">Email: wesleymbate@gmail.com<br>Copyright 2018 wesleymbate - All Rights Reserved</p>
+    </div>
+  </footer>
+</div>
