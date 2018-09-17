@@ -1,6 +1,7 @@
 // Imports __ START
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {AlertsService} from './alert-service/alerts.service'
                   // imports the FormsModule to the root module.
 import { FormsModule } from '@angular/forms';
 
@@ -27,10 +28,10 @@ import { GoalFormComponent } from './goal-form/goal-form.component';
   imports: [
     BrowserModule,
                     // We then place the newly imported module to the imports array.
-    FormsModule,
+    FormsModule
   ],
                           // Providers Array
-  providers: [],
+  providers: [AlertsService],
   bootstrap: [AppComponent]
 })
 // NgModule decorator __ END
