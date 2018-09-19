@@ -3,17 +3,23 @@ import { Goal } from '../goal';
 import { Goals } from '../goals';
 import { GoalService } from '../goals/goal.service';
 import { AlertsService } from '../alert-service/alerts.service'
-
+import { QuoteRequestService } from '../quote-http/quote-request.service'
+import { HttpClient } from '@angular/common/http'
+import { Quote } from '../quote-class/quote'
+import { Router} from '@angular/router';
+import {RouteService} from '../routing/route.service';
 @Component({
   selector: 'app-goal',
   templateUrl: './goal.component.html',
-  providers: [GoalService], //add the providers to the component
+  providers: [GoalService, QuoteRequestService], //add the providers to the component
   styleUrls: ['./goal.component.css']
 })
 export class GoalComponent implements OnInit {
   // set goals
-  goals:Goal[];
+  goals: Goal[];
   alertService: AlertsService;
+  router:Router;
+  quote: Quote;
 
   // to hide or show Goal details
   toogleDetails(index) {
@@ -40,10 +46,34 @@ export class GoalComponent implements OnInit {
     this.goals.push(goal)
   }
 
-  constructor(goalService: GoalService, alertService: AlertsService) {
-    this.goals = goalService.getGoals();
+  goToUrl(id){
+    this.router.navigate(['/goals',id]);
+  }
+  routeService:RouteService;
+  constructor(goalService: GoalService, alertService: AlertsService, private quoteService:QuoteRequestService,rout:Router,route:RouteService) {
+    this.routeService=route;
+    this.goals = this.routeService.getGoals();
     this.alertService = alertService;
+    this.router=rout;
   }
+
+
   ngOnInit() {
+     
+    this.quoteService.quoteRequest()
+    this.quote=this.quoteService.quote
+    // interface ApiResponse {
+    //   quote: string;
+    //   author: string
+
   }
-}
+
+//     this.http.get<ApiResponse>("https://talaikis.com/api/quotes/random/").subscribe(data => {
+//   this.quote = new Quote(data.quote, data.author)
+//
+// }, err => {
+//   this.quote = new Quote("Never, never give up.", "Winston Churchill")
+//   console.log("Error Occured")
+// })
+
+  }

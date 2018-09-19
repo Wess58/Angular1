@@ -15,6 +15,7 @@ export class GoalFormComponent implements OnInit {
                 // We create the submitGoal function where we call the emit method and pass in the newGoal property.
     submitGoal(){
       this.addGoal.emit(this.newGoal);
+      this.newGoal=new Goal(0,"","",new Date());
     }
 
 
